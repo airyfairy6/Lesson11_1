@@ -1,3 +1,15 @@
+package src.main;
+
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 import java.util.NoSuchElementException;
 
 
@@ -13,43 +25,43 @@ public class SystemTest {
         driver.get("https://google.com");
         driver.manage().window().maximize();
         Thread.sleep(500);
-//try {
-        driver.get("https://learn.andersenlab.com/login/index.php/");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-
-        driver.findElement(By.id("username"));
-
-        driver.findElement(By.id("username"));
-        WebElement username = driver.findElement(By.id("username"));
-        username.click();
-        username.sendKeys("may2022_aqa5");
-
-        driver.findElement(By.id("password"));
-        WebElement password = driver.findElement(By.id("password"));
-        password.click();
-        password.sendKeys("Levanter_6");
-
-        driver.findElement(By.id("loginbtn"));
-        WebElement login = driver.findElement(By.id("loginbtn"));
-        login.click();
-
-        String expected_url = "https:learn.andersenlab.com/my//";
-        String current_url = driver.getCurrentUrl();
-
-        Assert.assertFalse("URL does not match\\n", expected_url.equals(current_url));
-        Thread.sleep(2000);
-        System.out.println("AssertTrue Test1 Passed\n");
-
-
-        String expected_student = "Sviatlana Karaliova";
-        String current_student = String.valueOf(driver.findElement(By.id("page-my-index")));
-
-        Assert.assertFalse("URL does not match\\n", expected_url.equals(current_url));
-        Thread.sleep(2000);
-        System.out.println("AssertTrue Test2 Passed\n");
-
         try {
+            driver.get("https://learn.andersenlab.com/login/index.php/");
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+
+            driver.findElement(By.id("username"));
+
+            driver.findElement(By.id("username"));
+            WebElement username = driver.findElement(By.id("username"));
+            username.click();
+            username.sendKeys("may2022_aqa5");
+
+            driver.findElement(By.id("password"));
+            WebElement password = driver.findElement(By.id("password"));
+            password.click();
+            password.sendKeys("Levanter_6");
+
+            driver.findElement(By.id("loginbtn"));
+            WebElement login = driver.findElement(By.id("loginbtn"));
+            login.click();
+
+            String expected_url = "https:learn.andersenlab.com/my//";
+            String current_url = driver.getCurrentUrl();
+
+            Assert.assertFalse("URL does not match\\n", expected_url.equals(current_url));
+            Thread.sleep(2000);
+            System.out.println("AssertTrue Test1 Passed\n");
+
+
+            String expected_student = "Sviatlana Karaliova";
+            String current_student = String.valueOf(driver.findElement(By.id("page-my-index")));
+
+            Assert.assertFalse("URL does not match\\n", expected_url.equals(current_url));
+            Thread.sleep(2000);
+            System.out.println("AssertTrue Test2 Passed\n");
+
+            
             new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.
                     elementToBeClickable(By.linkText("Управление личными файлами...")));
 
