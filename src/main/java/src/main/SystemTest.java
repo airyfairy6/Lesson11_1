@@ -72,7 +72,7 @@ public class SystemTest {
             WebElement reject = driver.findElement(By.id("id_cancel"));
             reject.click();
 
-//            driver.close();
+            driver.close();
 
 
     }
