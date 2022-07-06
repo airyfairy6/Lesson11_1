@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Iterator;
+import java.util.Set;
 
 public class Test1 {
     public static WebDriver driver;
@@ -79,6 +81,18 @@ public class Test1 {
 
     @AfterEach
     void tearThis() {
+        driver.findElement(By.id("action-menu-toggle-1"));
+        WebElement id = driver.findElement(By.id("action-menu-toggle-1"));
+        id.click();
+        String mainWindowHandle = driver.getWindowHandle();
+        Set<String> allWindowHandles = driver.getWindowHandles();
+        Iterator<String> iterator = allWindowHandles.iterator();
+        while (iterator.hasNext()) {
+            String ChildWindow = iterator.next();
+            driver.switchTo().window(ChildWindow);
+            WebElement d = driver.findElement(By.id("actionmenuaction-7"));
+            d.click();
+        }
 
         driver.close();
     }
