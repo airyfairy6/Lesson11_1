@@ -1,69 +1,130 @@
-import org.junit.BeforeClass;
+import org.junit.Assert;
 import org.junit.jupiter.api.*;
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class Test1111 {
-    private static Logger logger = LoggerFactory.getLogger(Test1111.class);
+import java.time.Duration;
 
-    @BeforeClass
-    public static void beforeClass() {
-        System.setProperty("java.util.logging.config.file", ClassLoader.getSystemResource("logging.properties").getPath());
-    }
+import static java.util.concurrent.TimeUnit.SECONDS;
 
-    @BeforeAll
-    static void setup() {
-        System.out.println("BeforeAll executed");
-    }
+public class Test1 {
+    public static WebDriver driver;
 
     @BeforeEach
-    void setupThis() {
-        System.out.println("BeforeEach executed");
+    public void beforeClass() {
+        System.setProperty(
+                "webdriver.chrome.driver",
+
+                "C:\\Users\\Svetlana\\1212\\untitled\\src\\main\\resources\\chromedriver.exe"
+        );
+        this.driver = new ChromeDriver();
+        driver.get("https://google.com");
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(3, SECONDS);
+        driver.get("https://www.saucedemo.com/");
+
     }
 
     @Test
-     void test() {
-        System.out.println("Executed test method");
+    void test() {
+        driver.findElement(By.id("user-name"));
+        WebElement username = driver.findElement(By.id("user-name"));
+        username.click();
+        username.sendKeys("standard_user");
+        driver.findElement(By.id("password"));
+        WebElement password = driver.findElement(By.id("password"));
+        password.click();
+        password.sendKeys("secret_sauce");
+
+
+        driver.findElement(By.id("login-button"));
+        WebElement login = driver.findElement(By.id("login-button"));
+        login.click();
+
+        String expected_url = "https://www.saucedemo.com/inventory.html/";
+        String current_url = driver.getCurrentUrl();
+
+        Assert.assertNotEquals("URL does not match\\n", expected_url.equals(current_url));
+
+        System.out.println("AssertTrue Test Passed\n");
+
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.
+                elementToBeClickable(By.id("add-to-cart-sauce-labs-backpack")));
+
+        driver.findElement(By.id("add-to-cart-sauce-labs-backpack"));
+        WebElement item = driver.findElement(By.id("add-to-cart-sauce-labs-backpack"));
+        item.click();
+
+        driver.findElement(By.id("add-to-cart-sauce-labs-bike-light"));
+        WebElement item2 = driver.findElement(By.id("add-to-cart-sauce-labs-bike-light"));
+        item2.click();
+
+
+        driver.findElement(By.className("shopping_cart_link"));
+        WebElement bag = driver.findElement(By.className("shopping_cart_link"));
+        bag.click();
+
+        String expected_product = "Sauce Labs Bike Light";
+        String current_product = String.valueOf(driver.findElement(By.xpath("//*[contains(text(), 'Sauce Labs Bike Light')]")));
+
+        Assert.assertFalse("Product does not match", expected_product.equals(current_product));
+        System.out.println("Test2 Passed");
+
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.
+                elementToBeClickable(By.className("cart_quantity")));
+        WebElement actualBag = driver.findElement(By.className("cart_quantity"));
+        Assert.assertNotNull("Null Object", actualBag);
+        System.out.println("AssertNotNull Test Passed");
+
+        driver.findElement(By.id("remove-sauce-labs-bike-light"));
+        WebElement itemDelete = driver.findElement(By.id("remove-sauce-labs-bike-light"));
+        itemDelete.click();
+
+
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.
+                elementToBeClickable(By.id("checkout")));
+        driver.findElement(By.id("checkout"));
+        WebElement checkout = driver.findElement(By.id("checkout"));
+        checkout.click();
+
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.
+                elementToBeClickable(By.id("first-name")));
+        driver.findElement(By.id("first-name"));
+        WebElement firstName = driver.findElement(By.id("first-name"));
+        firstName.click();
+        firstName.sendKeys("Sviatlana");
+
+        driver.findElement(By.id("last-name"));
+        WebElement lastName = driver.findElement(By.id("last-name"));
+        lastName.click();
+        lastName.sendKeys("Karaliova");
+        driver.findElement(By.id("postal-code"));
+        WebElement postalcode = driver.findElement(By.id("postal-code"));
+        postalcode.click();
+        postalcode.sendKeys("04-379");
+        driver.findElement(By.id("continue"));
+        WebElement continue1 = driver.findElement(By.id("continue"));
+        continue1.click();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.
+                elementToBeClickable(By.id("finish")));
+        driver.findElement(By.id("finish"));
+        WebElement finish = driver.findElement(By.id("finish"));
+        finish.click();
     }
-
-    @Disabled
-    @Test
-    void additionTest() {
-
-    }
-
-    @DisplayName("Testing addition")
-    @Test
-    void addition2Test() {
-        System.out.println("Function named 1 executed");
-    }
-
-
-
-    @Tag("a")
-    @Test
-    void test1() {
-        System.out.println("Fulfilling a");
-    }
-
-    @DisplayName("Repeated Test")
-    @RepeatedTest(value = 2, name = "{displayName} -> {currentRepetition}")
-    void repeatedTest(RepetitionInfo repetitionInfo) {
-        System.out.println("Current iteration: " + repetitionInfo.getCurrentRepetition());
-
-    }
-
-
 
 
     @AfterEach
     void tearThis() {
-        System.out.println("AfterEach executed");
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.
+                elementToBeClickable(By.id("back-to-products")));
+        driver.findElement(By.id("back-to-products"));
+        WebElement back = driver.findElement(By.id("back-to-products"));
+        back.click();
     }
 
-    @AfterAll
-    static void tear() {
-        System.out.println("AfterAll executed");
-    }
 
 }
