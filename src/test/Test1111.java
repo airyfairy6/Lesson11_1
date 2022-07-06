@@ -124,6 +124,7 @@ public class Test1 {
         driver.findElement(By.id("back-to-products"));
         WebElement back = driver.findElement(By.id("back-to-products"));
         back.click();
+        driver.close();
     }
 
 
