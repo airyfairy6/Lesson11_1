@@ -1,69 +1,87 @@
-import org.junit.BeforeClass;
-import org.junit.jupiter.api.*;
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
+import org.junit.Assert;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class Test1111 {
-    private static Logger logger = LoggerFactory.getLogger(Test1111.class);
+import java.time.Duration;
 
-    @BeforeClass
-    public static void beforeClass() {
-        System.setProperty("java.util.logging.config.file", ClassLoader.getSystemResource("logging.properties").getPath());
-    }
-
-    @BeforeAll
-    static void setup() {
-        System.out.println("BeforeAll executed");
-    }
+public class Test1 {
+    public static WebDriver driver;
 
     @BeforeEach
-    void setupThis() {
-        System.out.println("BeforeEach executed");
+    public void beforeClass() {
+        System.setProperty(
+                "webdriver.chrome.driver",
+
+                "C:\\Users\\Svetlana\\1212\\untitled\\src\\main\\resources\\chromedriver.exe"
+        );
+        this.driver = new ChromeDriver();
+        driver.get("https://google.com");
+        driver.manage().window().maximize();
+        driver.get("https://learn.andersenlab.com/login/index.php/");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+
     }
 
     @Test
-     void test() {
-        System.out.println("Executed test method");
+    void test() {
+        driver.findElement(By.id("username"));
+
+        driver.findElement(By.id("username"));
+        WebElement username = driver.findElement(By.id("username"));
+        username.click();
+        username.sendKeys("may2022_aqa5");
+
+        driver.findElement(By.id("password"));
+        WebElement password = driver.findElement(By.id("password"));
+        password.click();
+        password.sendKeys("Levanter_6");
+
+        driver.findElement(By.id("loginbtn"));
+        WebElement login = driver.findElement(By.id("loginbtn"));
+        login.click();
+
+        String expected_url = "https:learn.andersenlab.com/my//";
+        String current_url = driver.getCurrentUrl();
+
+        Assert.assertFalse("URL does not match\\n", expected_url.equals(current_url));
+        System.out.println("AssertTrue Test1 Passed\n");
+
+
+        String expected_student = "Sviatlana Karaliova";
+        String current_student = String.valueOf(driver.findElement(By.id("page-my-index")));
+
+        Assert.assertFalse("Student does not match\\n", expected_student.equals(current_student));
+        System.out.println("AssertTrue Test2 Passed\n");
+
+
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.
+                elementToBeClickable(By.linkText("Управление личными файлами...")));
+
+        driver.findElement(By.linkText("Управление личными файлами..."));
+        WebElement item = driver.findElement(By.linkText("Управление личными файлами..."));
+        item.click();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.
+                elementToBeClickable(By.id("id_cancel")));
+
+        driver.findElement(By.id("id_cancel"));
+        WebElement reject = driver.findElement(By.id("id_cancel"));
+        reject.click();
     }
-
-    @Disabled
-    @Test
-    void additionTest() {
-
-    }
-
-    @DisplayName("Testing addition")
-    @Test
-    void addition2Test() {
-        System.out.println("Function named 1 executed");
-    }
-
-
-
-    @Tag("a")
-    @Test
-    void test1() {
-        System.out.println("Fulfilling a");
-    }
-
-    @DisplayName("Repeated Test")
-    @RepeatedTest(value = 2, name = "{displayName} -> {currentRepetition}")
-    void repeatedTest(RepetitionInfo repetitionInfo) {
-        System.out.println("Current iteration: " + repetitionInfo.getCurrentRepetition());
-
-    }
-
-
 
 
     @AfterEach
     void tearThis() {
-        System.out.println("AfterEach executed");
+
+        driver.close();
     }
 
-    @AfterAll
-    static void tear() {
-        System.out.println("AfterAll executed");
-    }
 
 }
